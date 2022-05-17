@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { ColDef, ColumnApi, GridApi, GridReadyEvent } from 'ag-grid-community';
+import { User } from '@app/_models';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cv-records',
@@ -26,10 +28,18 @@ export class CvRecordsComponent implements OnInit {
 ];
 
 rowData:any;
+private userSubject: BehaviorSubject<User>;
+public user: Observable<User>;
+tokenKey : any;
+tokenText : string;
 
   constructor(private http: HttpClient){
+    this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
+    this.user = this.userSubject.asObservable();
+    this.tokenKey = this.userSubject.getValue();
+    this.tokenText = this.tokenKey.access_token;
     //get request
-    this.http.get('https://acadhubdep1.azurewebsites.net/api/CvRecords').subscribe(data => {
+    this.http.get('https://localhost:44358/api/CvRecords',{ headers: {"Authorization" : `Bearer ${this.tokenText}`} }).subscribe(data => {
       //data storing for use in html component
       this.rowData = data;
           }, error => console.error(error));

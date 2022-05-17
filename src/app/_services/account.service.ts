@@ -31,10 +31,11 @@ export class AccountService {
     // return this.http.post(this.rootUrl + '/token', data, { headers: reqHeader });
       console.log(data);
       console.log(reqHeader);
-        return this.http.post<User>(`https://localhost:44399/Token`, data, { headers: reqHeader })
+        return this.http.post<User>(`https://localhost:44358/Token`, data, { headers: reqHeader })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
+                
                 this.userSubject.next(user);
                 return user;
             }));

@@ -1,0 +1,54 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+.home {
+  background-image: url(../../assets/Images/BackgroundAdmin.png);
+  height: 668pt;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+section{
+  min-height: 100vh;
+  padding:0 9%;
+  padding-top: 7.5rem;
+  padding-bottom: 2rem;
+}
+
+
+.content h3{
+
+  text-align: center;
+  font-size: 5rem;
+  color:#333;
+  text-transform: uppercase;
+}
+
+.content h3 span{
+  font-size: 3rem;
+  color:var(--pink);
+  text-transform: uppercase;
+}
+
+.content h2{
+
+  text-align: center;
+  font-size: 5rem;
+  color:#333;
+  text-transform: uppercase;
+}
+
+.content h2 span{
+  font-size: 3rem;
+  color:var(--pink);
+  text-transform: uppercase;
+}
+
+.content p{
+  font-size: 1.7rem;
+  color:#666;
+  padding:1rem 0;
+}

@@ -1,16 +1,41 @@
-﻿<!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="user">
-    <div class="navbar-nav">
-        <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-        <!-- <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">Users</a> -->
-        <a class="nav-item nav-link" routerLink="/universities" routerLinkActive="active">Universities Records</a>
-        <a class="nav-item nav-link" routerLink="/cvRecord" routerLinkActive="active">Cv Records</a>
-        <a class="nav-item nav-link" (click)="logout()">Logout</a>
-    </div>
-</nav>
+﻿<link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<header>
+  <a href="#" class="logo"><span>Academic</span>-Hub</a>
 
-<!-- main app container -->
-<div class="app-container" [ngClass]="{ 'bg-light': user }">
-    <alert></alert>
-    <router-outlet></router-outlet>
+  <input type="checkbox" id="menu-bar" />
+  <label for="menu-bar" class="fas fa-bars"></label>
+
+  <nav class="navbar" *ngIf="user">
+    <div class="navbar-nav">
+      <a
+        class="nav-item nav-link"
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Home</a
+      >
+      <a
+        class="nav-item nav-link"
+        routerLink="/universities"
+        routerLinkActive="active"
+        >Universities Records</a
+      >
+      <a
+        class="nav-item nav-link"
+        routerLink="/cvRecord"
+        routerLinkActive="active"
+        >Cv Records</a
+      >
+      <a class="nav-item nav-link" (click)="logout()">Logout</a>
+    </div>
+  </nav>
+</header>
+
+<div>
+  <!-- <alert></alert> -->
+  <router-outlet></router-outlet>
 </div>
