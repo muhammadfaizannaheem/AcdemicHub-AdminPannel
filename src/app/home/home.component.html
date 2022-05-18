@@ -1,11 +1,27 @@
-﻿
-  <div class="container-fluid home">
+﻿<div class="container-fluid home">
     <section>
-      <div class="content">
-       <br>
-        <h2>Admin <span> Pannel</span></h2>
-       <h3><span>Academic-Hub - A Student Guidance Portal</span></h3>
-      </div>
-    </section>
-  </div>
+        <div class="content">
+            <br>
+            <h2>Wellcome <span>{{userName}} </span> to <span style="font-size: 2rem; text-transform: uppercase;">Admin Panel</span></h2>
+            <h3><span>Academic-Hub - A Student Guidance Portal</span></h3>
+        </div>
+        <section class="Team" id="Team" style="padding-bottom: 4pt; padding-top: 1pt; min-height: 2vh;">
 
+            <div class="box-container">
+                <div class="box">
+                    <div class="LoadImg">
+                        <h3 style="font-size: 36pt;">{{DepCount}} </h3>
+                    </div>
+                    <h3><span>Total</span> Departments</h3>
+                </div>
+                <div class="box">
+                    <div class="LoadImg">
+                        <h3 style="font-size: 36pt;">{{CvCount}} </h3>
+                    </div>
+                    <h3><span>Total</span> CV's Generated</h3>
+                </div>
+            </div>
+
+        </section>
+    </section>
+</div>

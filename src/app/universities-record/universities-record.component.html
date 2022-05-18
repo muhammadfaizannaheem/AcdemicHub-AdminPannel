@@ -1,12 +1,19 @@
 <section>
-  <ag-grid-angular
-    style="width: 620px; height: 100%"
-    class="ag-theme-balham-dark"
-    style="width: 100%; height: 700px"
-    [rowData]="rowData"
-    [columnDefs]="columnDefs"
-    [paginationAutoPageSize]="true"
-    [pagination]="true"
-  >
-  </ag-grid-angular>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="box-container">
+                <div class="box">
+                    <div class="col-md-12 col-sm-12">
+                        <input type="file" class="form-control" (change)="addfile($event)" placeholder="Upload file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+
+                        <button class="btn">Upload New Record</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ag-grid-angular style="width: 620px; height: 100%" class="ag-theme-balham-dark" style="width: 100%; height: 700px" [rowData]="rowData" [columnDefs]="columnDefs" [paginationAutoPageSize]="true" [pagination]="true">
+    </ag-grid-angular>
 </section>
