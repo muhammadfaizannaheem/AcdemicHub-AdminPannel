@@ -26,8 +26,6 @@ export class HomeComponent {
     // console.log("UserObject" + JSON.stringify(this.accountService.userValue));
     this.token= Object(accountService.userValue)["access_token"];
     this.userName=Object(accountService.userValue)["userName"];
-    console.log(this.userName);
-    console.log("token = " + this.token);
     this.http
       .get("https://localhost:44358/api/CvRecords", {
         headers: { Authorization: `Bearer ${this.token}` },
@@ -37,14 +35,15 @@ export class HomeComponent {
           //data storing for use in html component
           this.uData = data;
           this.TempCv=this.uData.length;
+          console.log("CvCount" + this.TempCv);
           this.cvCountStop = setInterval(()=>{
-            this.CvCount=this.CvCount+5;
+            this.CvCount=this.CvCount+1;
             if(this.CvCount >= this.TempCv)
             {
               this.CvCount=this.TempCv;
               clearInterval(this.cvCountStop);
             }
-          },2090);
+          },1090);
         },
         (error) => console.error(error)
       );

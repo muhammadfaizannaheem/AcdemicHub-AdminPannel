@@ -1,10 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { ColDef, ColumnApi, GridApi, GridReadyEvent } from "ag-grid-community";
 import { User } from "@app/_models";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, concat, Observable } from "rxjs";
 import * as XLSX from "xlsx";
+import { University } from "./university";
+import { JsonPipe } from "@angular/common";
 
 @Component({
   selector: "app-universities-record",
@@ -15,6 +17,10 @@ export class UniversitiesRecordComponent implements OnInit {
   file: File;
   arrayBuffer: any;
   filelist: any;
+  tempData: any;
+  universityData: any;
+  university: University;
+  
 
   columnDefs: ColDef[] = [
     {
@@ -114,8 +120,11 @@ export class UniversitiesRecordComponent implements OnInit {
   public user: Observable<User>;
   tokenKey: any;
   tokenText: string;
-  
-  constructor(private http: HttpClient) {
+
+  constructor(
+    private http: HttpClient,
+    private changeDetection: ChangeDetectorRef
+  ) {
     this.userSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem("user"))
     );
@@ -151,10 +160,55 @@ export class UniversitiesRecordComponent implements OnInit {
       var workbook = XLSX.read(bstr, { type: "binary" });
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
-      console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
-      var arraylist = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+      // console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
+      this.arrayBuffer = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+      console.log(this.arrayBuffer.length);
       this.filelist = [];
-      console.log(this.filelist);
+      // this.arrayBuffer=arraylist;
     };
+  }
+  uploadRecord() {
+   
+
+    this.deleteRecord();
+    this.postRecord();
+    this.getRecord();
+    this.changeDetection.detectChanges();
+  }
+  deleteRecord(){
+    this.http
+      .delete("https://localhost:44358/api/BulkDelete", {
+        headers: { Authorization: `Bearer ${this.tokenText}` },
+      })
+      .subscribe((resp) => {
+        console.log("Response for Deleting Data is  :  " + resp);
+      });
+  }
+  getRecord(){
+    this.http
+      .get("https://localhost:44358/api/UniRecords", {
+        headers: { Authorization: `Bearer ${this.tokenText}` },
+      })
+      .subscribe(
+        (data) => {
+          //data storing for use in html component
+          this.rowData = data;
+          this.transferData(data);
+        },
+        (error) => console.error(error)
+      );
+  }
+  postRecord(){
+    this.http
+      .post("https://localhost:44358/api/UniBulk", this.arrayBuffer, {
+        responseType: "json",
+        headers: { Authorization: `Bearer ${this.tokenText}` },
+      })
+      .subscribe((resp) => {
+        console.log("Response of Record Url is : " + resp);
+      });
+  }
+  transferData(data : any){
+    this.rowData=data;
   }
 }

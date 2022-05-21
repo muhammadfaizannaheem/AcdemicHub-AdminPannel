@@ -6,7 +6,7 @@
                     <div class="col-md-12 col-sm-12">
                         <input type="file" class="form-control" (change)="addfile($event)" placeholder="Upload file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
 
-                        <button class="btn">Upload New Record</button>
+                        <button class="btn" (click)="uploadRecord()">Upload New Record</button>
 
                     </div>
                 </div>
