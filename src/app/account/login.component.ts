@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AccountService, AlertService } from '@app/_services';
+import { Toaster } from 'ngx-toast-notifications';
 
 @Component({ templateUrl: 'login.component.html', styleUrls: ['./login.component.css'] })
 export class LoginComponent implements OnInit {
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private accountService: AccountService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private toaster : Toaster
     ) { }
 
     ngOnInit() {
@@ -47,11 +49,13 @@ export class LoginComponent implements OnInit {
                 next: () => {
                     // get return url from query parameters or default to home page
                     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+                    this.toaster.open({text: 'Login Success', duration: 4000, type: 'success', position : 'top-right'});
                     this.router.navigateByUrl(returnUrl);
                 },
                 error: error => {
                     this.alertService.error(error);
                     this.loading = false;
+                    this.toaster.open({text: 'Login Failed - Check Credentials', duration: 4000, type: 'danger', position : 'top-right'});
                 }
             });
     }

@@ -29,9 +29,7 @@ export class AccountService {
      var data = "grant_type=password" + "&username=" + username + "&password=" + password ;
      var reqHeader = new HttpHeaders({ 'Content-Type': 'application/X-www-urlencoded'});
     // return this.http.post(this.rootUrl + '/token', data, { headers: reqHeader });
-      console.log(data);
-      console.log(reqHeader);
-        return this.http.post<User>(`https://localhost:44358/Token`, data, { headers: reqHeader })
+        return this.http.post<User>(`https://academichub.tech/Token`, data, { headers: reqHeader })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
@@ -49,11 +47,11 @@ export class AccountService {
     }
 
     register(user: User) {
-        return this.http.post(`${environment.apiUrl}/Register`, user);
+        return this.http.post(`${environment.apiUrl}/Account/Register`, user);
     }
 
     getAll() {
-        return this.http.get<User[]>(`${environment.apiUrl}/users`);
+        return this.http.get<User[]>(`${environment.apiUrl}/Account/users`);
     }
 
     getById(id: string) {
@@ -61,7 +59,7 @@ export class AccountService {
     }
 
     update(id, params) {
-        return this.http.put(`${environment.apiUrl}/${id}`, params)
+        return this.http.put(`${environment.apiUrl}/Account/${id}`, params)
             .pipe(map(x => {
                 // update stored user if the logged in user updated their own record
                 if (id == this.userValue.id) {
@@ -77,7 +75,7 @@ export class AccountService {
     }
 
     delete(id: string) {
-        return this.http.delete(`${environment.apiUrl}/${id}`)
+        return this.http.delete(`${environment.apiUrl}/Account/${id}`)
             .pipe(map(x => {
                 // auto logout if the logged in user deleted their own record
                 if (id == this.userValue.id) {

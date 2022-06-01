@@ -1,4 +1,16 @@
 <section>
+  <div class="row" *ngIf="rowSelected">
+    <div class="col-md-9"></div>
+    <div class="col-md-3">
+      <button class="btn btn-sm btn-primary" (click)="editCv()">
+        Update Cv Record
+      </button>
+
+      <button class="btn btn-sm btn-danger" (click)="deleteCv()">
+        Delete Cv Record
+      </button>
+    </div>
+  </div>
   <ag-grid-angular
     style="width: 620px; height: 100%"
     class="ag-theme-balham-dark"
@@ -7,6 +19,10 @@
     [columnDefs]="columnDefs"
     [paginationAutoPageSize]="true"
     [pagination]="true"
+    rowSelection="single"
+    (gridReady)="onGridReady($event)"
+    (rowClicked)="onRowClicked()"
+    
   >
   </ag-grid-angular>
 </section>

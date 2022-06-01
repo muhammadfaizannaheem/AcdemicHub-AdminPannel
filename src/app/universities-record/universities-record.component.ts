@@ -7,6 +7,10 @@ import { BehaviorSubject, concat, Observable } from "rxjs";
 import * as XLSX from "xlsx";
 import { University } from "./university";
 import { JsonPipe } from "@angular/common";
+import { environment } from "@environments/environment";
+import { LoadingService } from "../loading.service";
+import { Toaster } from "ngx-toast-notifications";
+import { delay } from "rxjs/operators";
 
 @Component({
   selector: "app-universities-record",
@@ -20,8 +24,12 @@ export class UniversitiesRecordComponent implements OnInit {
   tempData: any;
   universityData: any;
   university: University;
-  
-
+  private api: GridApi;
+  private columnApi: ColumnApi;
+  rowSelected: boolean = false;
+  uId: number;
+  uData: any;
+  SendingUrl: string;
   columnDefs: ColDef[] = [
     {
       headerName: "Uni Id",
@@ -35,12 +43,14 @@ export class UniversitiesRecordComponent implements OnInit {
       field: "UniversityName",
       sortable: true,
       filter: true,
+      editable: true,
     },
     {
       headerName: "University Url",
       field: "UniUrl",
       sortable: true,
       filter: true,
+      editable: true,
     },
     {
       headerName: "Location",
@@ -55,6 +65,7 @@ export class UniversitiesRecordComponent implements OnInit {
       sortable: true,
       filter: true,
       width: 120,
+      editable: true,
     },
     { headerName: "Email", field: "UniEmail", sortable: true, filter: true },
     {
@@ -62,6 +73,7 @@ export class UniversitiesRecordComponent implements OnInit {
       field: "DepartmentName",
       sortable: true,
       filter: true,
+      editable: true,
     },
     {
       headerName: "Department Url",
@@ -69,6 +81,7 @@ export class UniversitiesRecordComponent implements OnInit {
       sortable: true,
       filter: true,
       width: 900,
+      editable: true,
     },
     {
       headerName: "Program Fee",
@@ -76,6 +89,7 @@ export class UniversitiesRecordComponent implements OnInit {
       sortable: true,
       filter: true,
       width: 130,
+      editable: true,
     },
     {
       headerName: "Program Duration",
@@ -83,6 +97,7 @@ export class UniversitiesRecordComponent implements OnInit {
       sortable: true,
       filter: true,
       width: 140,
+      editable: true,
     },
     {
       headerName: "Ranking",
@@ -90,6 +105,7 @@ export class UniversitiesRecordComponent implements OnInit {
       sortable: true,
       filter: true,
       width: 100,
+      editable: true,
     },
     {
       headerName: "Admission Link",
@@ -97,6 +113,7 @@ export class UniversitiesRecordComponent implements OnInit {
       sortable: true,
       filter: true,
       width: 400,
+      editable: true,
     },
     {
       headerName: "Psoitive Ranking",
@@ -104,6 +121,7 @@ export class UniversitiesRecordComponent implements OnInit {
       sortable: true,
       filter: true,
       width: 150,
+      editable: true,
     },
     {
       headerName: "Negetive Ranking",
@@ -111,6 +129,7 @@ export class UniversitiesRecordComponent implements OnInit {
       sortable: true,
       filter: true,
       width: 150,
+      editable: true,
     },
   ];
 
@@ -121,9 +140,13 @@ export class UniversitiesRecordComponent implements OnInit {
   tokenKey: any;
   tokenText: string;
 
+  loading$ = this.loader.loading$;
+
   constructor(
     private http: HttpClient,
-    private changeDetection: ChangeDetectorRef
+    private changeDetection: ChangeDetectorRef,
+    public loader: LoadingService,
+    private toaster: Toaster
   ) {
     this.userSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem("user"))
@@ -133,7 +156,7 @@ export class UniversitiesRecordComponent implements OnInit {
     this.tokenText = this.tokenKey.access_token;
 
     this.http
-      .get("https://localhost:44358/api/UniRecords", {
+      .get(`${environment.apiUrl}/UniRecords`, {
         headers: { Authorization: `Bearer ${this.tokenText}` },
       })
       .subscribe(
@@ -145,7 +168,26 @@ export class UniversitiesRecordComponent implements OnInit {
       );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.http
+      .get(`${environment.apiUrl}/UniRecords`, {
+        headers: { Authorization: `Bearer ${this.tokenText}` },
+      })
+      .subscribe(
+        (data) => {
+          //data storing for use in html component
+          this.rowData = data;
+          // this.transferData(data);
+        },
+        (error) => console.error(error)
+      );
+  }
+
+  onGridReady(params): void {
+    this.api = params.api;
+    this.columnApi = params.columnApi;
+  }
+
   addfile(event) {
     this.file = event.target.files[0];
     let fileReader = new FileReader();
@@ -168,47 +210,137 @@ export class UniversitiesRecordComponent implements OnInit {
     };
   }
   uploadRecord() {
-   
-
     this.deleteRecord();
-    this.postRecord();
-    this.getRecord();
-    this.changeDetection.detectChanges();
+    this.ngOnInit();
+    this.api.refreshClientSideRowModel();
   }
-  deleteRecord(){
+  deleteRecord() {
     this.http
-      .delete("https://localhost:44358/api/BulkDelete", {
+      .delete(`${environment.apiUrl}/BulkDelete`, {
         headers: { Authorization: `Bearer ${this.tokenText}` },
       })
       .subscribe((resp) => {
-        console.log("Response for Deleting Data is  :  " + resp);
+        this.postRecord();
+        this.toaster.open({
+          text: "Step 1: Deletion Success",
+          duration: 4000,
+          type: "info",
+          position: "top-right",
+        });
       });
   }
-  getRecord(){
+  postRecord() {
     this.http
-      .get("https://localhost:44358/api/UniRecords", {
+      .post(`${environment.apiUrl}/UniBulk`, this.arrayBuffer, {
+        responseType: "json",
+        headers: { Authorization: `Bearer ${this.tokenText}` },
+      })
+      .subscribe((resp) => {
+        delay(10000);
+        this.getRecord();
+        this.toaster.open({
+          text: "Step 2: New Data Post Success",
+          duration: 4000,
+          type: "info",
+          position: "top-right",
+        });
+      });
+  }
+  getRecord() {
+    this.http
+      .get(`${environment.apiUrl}/UniRecords`, {
         headers: { Authorization: `Bearer ${this.tokenText}` },
       })
       .subscribe(
         (data) => {
           //data storing for use in html component
           this.rowData = data;
-          this.transferData(data);
+          this.ngOnInit();
+          this.api.refreshClientSideRowModel();
+          this.toaster.open({
+            text: "Data Update Successfull",
+            duration: 4000,
+            type: "success",
+            position: "top-right",
+          });
         },
         (error) => console.error(error)
       );
   }
-  postRecord(){
-    this.http
-      .post("https://localhost:44358/api/UniBulk", this.arrayBuffer, {
-        responseType: "json",
-        headers: { Authorization: `Bearer ${this.tokenText}` },
-      })
-      .subscribe((resp) => {
-        console.log("Response of Record Url is : " + resp);
+  editUni() {
+    const d = this.api.stopEditing();
+    // const d = this.api.getEditingCells();
+    if (this.api.getSelectedRows().length == 0) {
+      this.toaster.open({
+        text: "Please Select Row To Edit",
+        duration: 4000,
+        type: "warning",
+        position: "top-right",
       });
+      return;
+    }
+    var row = this.api.getSelectedRows();
+    this.uData = row[0];
+    this.uId = parseInt(this.uData.Uid);
+    this.SendingUrl = `${environment.apiUrl}/UniRecords/` + this.uId;
+    this.http.put(this.SendingUrl, this.uData).subscribe((resp) => {});
+    this.toaster.open({
+      text: "University Record Updated Successfully",
+      duration: 4000,
+      type: "success",
+      position: "top-right",
+    });
   }
-  transferData(data : any){
-    this.rowData=data;
+
+  onRowClicked() {
+    this.rowSelected = true;
+  }
+
+  onRefresh() {
+    this.rowSelected = false;
+    this.ngOnInit;
+    this.api.refreshClientSideRowModel();
+    this.toaster.open({
+      text: "Record Refreshed Successfully",
+      duration: 4000,
+      type: "success",
+      position: "top-right",
+    });
+  }
+
+  // excel download
+  //excel button click functionality
+  exportExcel() {
+    this.rowSelected = false;
+    this.onRefresh();
+    import("xlsx").then((xlsx) => {
+      const worksheet = xlsx.utils.json_to_sheet(this.rowData); // Rows Data
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
+      const excelBuffer: any = xlsx.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+      this.saveAsExcelFile(excelBuffer, "Acad");
+    });
+    this.toaster.open({
+      text: "Uni Data Downloaded Successfully",
+      duration: 4000,
+      type: "success",
+      position: "top-right",
+    });
+  }
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    import("file-saver").then((FileSaver) => {
+      let EXCEL_TYPE =
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+      let EXCEL_EXTENSION = ".xlsx";
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE,
+      });
+      FileSaver.saveAs(
+        data,
+        fileName + "_Data_" + new Date().getTime() + EXCEL_EXTENSION
+      );
+    });
   }
 }

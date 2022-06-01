@@ -6,6 +6,7 @@
 */
 {
   "files": [],
+  "module": "esnext", "moduleResolution": "node", "target": "es5",
   "references": [
     {
       "path": "./tsconfig.app.json"

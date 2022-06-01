@@ -3,6 +3,7 @@ import { Component } from "@angular/core";
 
 import { User } from "@app/_models";
 import { AccountService } from "@app/_services";
+import { environment } from '@environments/environment';
 
 @Component({
   templateUrl: "home.component.html",
@@ -27,7 +28,7 @@ export class HomeComponent {
     this.token= Object(accountService.userValue)["access_token"];
     this.userName=Object(accountService.userValue)["userName"];
     this.http
-      .get("https://localhost:44358/api/CvRecords", {
+      .get(`${environment.apiUrl}/CvRecords`, {
         headers: { Authorization: `Bearer ${this.token}` },
       })
       .subscribe(
@@ -48,7 +49,7 @@ export class HomeComponent {
         (error) => console.error(error)
       );
       this.http
-      .get("https://localhost:44358/api/UniRecords", {
+      .get(`${environment.apiUrl}/UniRecords`, {
         headers: { Authorization: `Bearer ${this.token}` },
       })
       .subscribe(
