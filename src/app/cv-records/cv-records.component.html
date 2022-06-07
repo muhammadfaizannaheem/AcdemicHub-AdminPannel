@@ -1,14 +1,24 @@
 <section>
-  <div class="row" *ngIf="rowSelected">
-    <div class="col-md-9"></div>
-    <div class="col-md-3">
-      <button class="btn btn-sm btn-primary" (click)="editCv()">
+  <div class="row">
+    <div class="col-md-9">
+
+      <button class="btn btn-sm btn-success" (click)="onRefresh()">
+        Refresh Cv Record
+      </button>
+
+      <button class="btn btn-sm btn-info" (click)="exportExcel()">
+        Download CV Data
+      </button>
+
+      <button class="btn btn-sm btn-warning" *ngIf="rowSelected" (click)="editCv()">
         Update Cv Record
       </button>
 
-      <button class="btn btn-sm btn-danger" (click)="deleteCv()">
+      <button class="btn btn-sm btn-danger" *ngIf="rowSelected" (click)="deleteCv()">
         Delete Cv Record
       </button>
+    </div>
+    <div class="col-md-3">
     </div>
   </div>
   <ag-grid-angular

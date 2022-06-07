@@ -283,7 +283,11 @@ export class UniversitiesRecordComponent implements OnInit {
     this.uData = row[0];
     this.uId = parseInt(this.uData.Uid);
     this.SendingUrl = `${environment.apiUrl}/UniRecords/` + this.uId;
-    this.http.put(this.SendingUrl, this.uData).subscribe((resp) => {});
+    this.http
+      .put(this.SendingUrl, this.uData, {
+        headers: { Authorization: `Bearer ${this.tokenText}` },
+      })
+      .subscribe((resp) => {});
     this.toaster.open({
       text: "University Record Updated Successfully",
       duration: 4000,
@@ -339,7 +343,7 @@ export class UniversitiesRecordComponent implements OnInit {
       });
       FileSaver.saveAs(
         data,
-        fileName + "_Data_" + new Date().getTime() + EXCEL_EXTENSION
+        fileName + "_UNI_Data_" + new Date().getTime() + EXCEL_EXTENSION
       );
     });
   }
