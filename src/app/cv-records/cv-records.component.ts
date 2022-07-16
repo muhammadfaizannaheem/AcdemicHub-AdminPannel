@@ -136,6 +136,7 @@ export class CvRecordsComponent implements OnInit {
     this.tokenKey = this.userSubject.getValue();
     this.tokenText = this.tokenKey.access_token;
     //get request
+    
     this.http
       .get(`${environment.apiUrl}/CvRecords`, {
         headers: { Authorization: `Bearer ${this.tokenText}` },

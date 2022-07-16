@@ -1,0 +1,50 @@
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Enable or Disable Pages</h3>
+      </div>
+    </div>
+    <div class="row toggle-box">
+      <div class="col-md-4">
+        <div class="radio-list">
+          <label class="radio" for="radio__toggle1">
+            <input
+              class="radio__toggle"
+              id="radio__toggle1"
+              type="checkbox"
+              [checked]="chkInterest"
+              (change)="Chk1()"
+            />
+            <span class="radio__span"> Interest Finder </span>
+          </label>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label class="radio" for="radio__toggle2">
+          <input
+            class="radio__toggle"
+            id="radio__toggle2"
+            type="checkbox"
+            [checked]="chkResume"
+            (change)="Chk2()"
+          />
+          <span class="radio__span"> Resume Generator </span>
+        </label>
+      </div>
+      <div class="col-md-4">
+        <label class="radio" for="radio__toggle3">
+          <input
+            class="radio__toggle"
+            id="radio__toggle3"
+            type="checkbox"
+            name="chkBox3"
+            [checked]="chkUni"
+            (change)="Chk3()"
+          />
+          <span class="radio__span"> University Explorer </span>
+        </label>
+      </div>
+    </div>
+  </div>
+</section>

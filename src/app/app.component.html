@@ -1,8 +1,17 @@
 ﻿<link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <header>
   <a href="#" class="logo"><span>Academic</span>-Hub</a>
 
@@ -30,7 +39,20 @@
         routerLinkActive="active"
         >Cv Records</a
       >
+      <a
+        class="nav-item nav-link"
+        routerLink="/pageStatus"
+        routerLinkActive="active"
+        >Page Status</a
+      >
       <a class="nav-item nav-link" (click)="logout()">Logout</a>
+      <a
+        class="nav-item nav-link"
+        routerLink="/myAccount"
+        routerLinkActive="active"
+      >My Account
+        <i class="material-icons"> manage_accounts</i></a
+      >
     </div>
   </nav>
 </header>

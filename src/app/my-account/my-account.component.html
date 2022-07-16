@@ -1,0 +1,80 @@
+<section>
+  <div class="container c1">
+    <div class="row">
+      <div class="col-md-3" style="text-transform: lowercase">
+        Current User : {{ userName }}
+      </div>
+      <div class="col-md-5">session started at : {{ loginTime }}</div>
+      <div class="col-md-4">
+        <button class="btn btn-primary buton" (click)="viewToken()">
+          {{ tokenText }}
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12" *ngIf="tokenStatus">
+        <br />
+        <div class="row tokRow">
+               <p class="tokText">
+                {{ token }}
+               <p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container c2">
+    <div class="pas">
+      <div class="row">
+        <div class="col-sm-12">
+          <br />
+          <h3>Change Password</h3>
+        </div>
+      </div>
+      <div class="row passBody">
+        <div class="col-sm-12">
+          <p>Use the form below to change your password.</p>
+          <form id="passwordForm">
+            <input
+              type="password"
+              class="input-lg form-control"
+              name="cpassword"
+              id="cpassword"
+              [(ngModel)]="cpass"
+              placeholder="Current Password"
+              autocomplete="off"
+            />
+            <br />
+            <input
+              type="password"
+              class="input-lg form-control"
+              name="password1"
+              id="password1"
+              [(ngModel)]="npass"
+              placeholder="New Password"
+              autocomplete="off"
+            />
+            <br />
+            <input
+              type="password"
+              class="input-lg form-control"
+              name="password2"
+              id="password2"
+              [(ngModel)]="conpass"
+              placeholder="Repeat Password"
+              autocomplete="off"
+            />
+            <br />
+            <input
+              type="submit"
+              class="col-xs-12 btn btn-primary btn-load btn-lg"
+              (click)="changePassword()"
+            />
+          </form>
+        </div>
+        <!--/col-sm-6-->
+      </div>
+    </div>
+    <!--/row-->
+  </div>
+</section>

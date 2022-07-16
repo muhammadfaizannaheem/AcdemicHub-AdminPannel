@@ -84,6 +84,18 @@ header label{
   opacity: 0;
 }
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+.material-icons{
+  font-size: 28pt;
+  vertical-align: middle;
+}
+
 
 
 /* media queries */

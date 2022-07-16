@@ -1,0 +1,105 @@
+section{
+    min-height: 100vh;
+    padding:0 9%;
+    padding-top: 7.5rem;
+    padding-bottom: 2rem;
+  }
+
+  :root{
+    --purple:#814096;
+    --pink:#F83292;
+    --gradient:linear-gradient(90deg, var(--purple), var(--pink));
+  }
+  
+h3{
+    color: var(--pink);
+    text-align: center;
+    font-weight: bold;
+    padding: 16pt;
+    text-decoration: underline;
+    
+}
+
+  html {
+    height: 100%;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .radio-list {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+  }
+  
+  .radio {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+  }
+  
+  .radio__span {
+      margin-left: 8px;
+      color: var(--purple);
+      font-size: 24px;
+      line-height: 36px;
+      transition: 0.3s;
+  }
+  
+  .radio__toggle {
+      position: relative;
+      min-width: 108px;
+      max-width: 108px;
+      height: 58px;
+      margin: 0;
+      vertical-align: top;
+      outline: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      transition: all 0.3s cubic-bezier(0.2, 0.85, 0.32, 1.2);
+      border: 2px solid rgb(208, 0, 250);
+      box-sizing: border-box;
+      border-radius: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+  }
+  
+  .radio__toggle::after {
+      content: "";
+      position: absolute;
+      left: 2px;
+      width: 50px;
+      height: 50px;
+      background-color: var(--purple);
+      border-radius: 50%;
+      transform: translateX(0);
+      transition: all 0.5s cubic-bezier(0.2, 0.85, 0.32, 1.2);
+  }
+  
+  .radio__toggle:checked::after {
+      transform: translateX(calc(100% + 2px));
+      left: initial;
+      background-color: var(--pink);
+  }
+  
+  .radio__toggle:checked + .radio__span {
+      color: rgb(0, 0, 0);
+  }
+  
+
+.toggle-box{
+    border: 2px solid rgb(214, 8, 242);
+    padding: 24pt;
+    margin: 20pt;
+    border-radius: 30rem;
+}

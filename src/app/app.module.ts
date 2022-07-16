@@ -18,6 +18,9 @@ import { ToastNotificationsModule } from 'ngx-toast-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NetworkInterceptor } from './network.interceptor';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { PageStatusComponent } from './page-status/page-status.component';;
+import { MyAccountComponent } from './my-account/my-account.component'
 
 @NgModule({
     imports: [
@@ -27,7 +30,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
         AppRoutingModule,
         AgGridModule,
         ToastNotificationsModule.forRoot({duration: 6000, type: 'success',position :  'top-right'}),
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        FormsModule
     ],
     declarations: [
         AppComponent,
@@ -35,7 +39,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
         HomeComponent
 ,
         UniversitiesRecordComponent ,
-        CvRecordsComponent   ],
+        CvRecordsComponent ,
+        PageStatusComponent ,
+        MyAccountComponent ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

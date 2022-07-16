@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;1,200&display=swap");
+:root {
+  --purple: #814096;
+  --pink: #f83292;
+  --gradient: linear-gradient(90deg, var(--purple), var(--pink));
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
+.home {
+  background-image: url(../../assets/Images/BackgroundAdmin.png);
+  height: 668pt;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+section {
+  min-height: 100vh;
+  padding: 0 9%;
+  padding-top: 7.5rem;
+  padding-bottom: 2rem;
+}
+
+.c1{
+  margin: 16pt;
+  background-color: whitesmoke;
+  padding: 8pt;
+}
+.c2{
+  margin: 16pt;
+  background-color: rgba(203, 126, 231, 0.329);
+  padding: 8pt;
+}
+h3{
+  columns: var(--gradient);
+}
+.pas{
+  text-align: center;
+  margin-left: 25%;
+  margin-right: 25%;
+}
+.tokText{
+  overflow: auto;
+  padding: 12pt;
+}
+.tokRow{
+  background-color: snow;
+}
